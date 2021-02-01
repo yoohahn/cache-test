@@ -31,7 +31,7 @@ jobs:
       - name: Cat File to be cached
         run: cat test.txt
 ## Linux -> Win
-  nixWin:
+  linux_windows:
     needs: ["linux"]
     runs-on: windows-latest
     timeout-minutes: 2
@@ -58,7 +58,7 @@ jobs:
       - name: Type File from cache
         run: type ./test.txt
 ## Linux -> Linux
-  nix:
+  linux_linux:
     needs: ["linux"]
     runs-on: ubuntu-latest
     timeout-minutes: 1
@@ -81,7 +81,7 @@ jobs:
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
 ## Linux -> OSX
-  osx:
+  linux_osx:
     needs: ["linux"]
     runs-on: macos-latest
     timeout-minutes: 1
@@ -104,7 +104,7 @@ jobs:
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
 ## Windows
-  win:
+  windows:
     runs-on: windows-latest
     timeout-minutes: 1
 
@@ -128,8 +128,8 @@ jobs:
       - name: Dir content
         run: dir
 ## Windows -> Windows
-  winWin:
-    needs: ["win"]
+  windows_windows:
+    needs: ["windows"]
     runs-on: windows-latest
     timeout-minutes: 2
 
@@ -155,8 +155,8 @@ jobs:
       - name: Type File from cache
         run: type ./test-win.txt
 ## Windows -> Linux
-  winNix:
-    needs: ["win"]
+  windows_linux:
+    needs: ["windows"]
     runs-on: ubuntu-latest
     timeout-minutes: 2
 
@@ -182,8 +182,8 @@ jobs:
       - name: Type File from cache
         run: cat ./test-win.txt
 ## Windows -> OSX
-  winOsx:
-    needs: ["win"]
+  windows_osx:
+    needs: ["windows"]
     runs-on: macos-latest
     timeout-minutes: 2
 
