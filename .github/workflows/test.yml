@@ -50,6 +50,27 @@ jobs:
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
 
+  nix:
+    needs: ["linux"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ./test.txt
+          key: v1-test-cache
+
+      - name: Cat File from cache
+        run: cat test.txt
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
   osx:
     needs: ["linux"]
     runs-on: macos-latest
