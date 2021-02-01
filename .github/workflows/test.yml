@@ -87,6 +87,9 @@ jobs:
       - name: Dir
         run: dir
 
+      - name: Type File from cache
+        run: type ./test-win.txt
+
   nix:
     needs: ["linux"]
     runs-on: ubuntu-latest
