@@ -17,9 +17,7 @@ jobs:
         with:
           path: |
             ./test.txt
-          key: v1-test-${{ github.base_ref }}
-          restore-keys: |
-            v1-test-
+          key: v1-test-cache
 
       - name: Create File
         run: |
@@ -42,9 +40,7 @@ jobs:
         with:
           path: |
             ./test.txt
-          key: v1-test-${{ github.base_ref }}
-          restore-keys: |
-            v1-test-
+          key: v1-test-cache
 
       - name: Type File from cache
         run: type test.txt
@@ -63,11 +59,8 @@ jobs:
       - name: Cache
         uses: actions/cache@v2
         with:
-          path: |
-            ./test.txt
-          key: v1-test-${{ github.base_ref }}
-          restore-keys: |
-            v1-test-
+          path: ./test.txt
+          key: v1-test-cache
 
       - name: Cat File from cache
         run: cat test.txt
