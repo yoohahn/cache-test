@@ -44,11 +44,14 @@ jobs:
             ./test.txt
           key: v1-test-cache
 
-      - name: Type File from cache
-        run: type test.txt
-
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
+
+      - name: Dir
+        run: dir
+
+      - name: Type File from cache
+        run: type test.txt
 
   nix:
     needs: ["linux"]
