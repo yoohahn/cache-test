@@ -1,4 +1,4 @@
-name: Testing Cache Linux -> Windows && Linux -> MacOS
+name: v1 Testing Cache Linux -> Windows && Linux -> MacOS
 
 on:
   pull_request:
