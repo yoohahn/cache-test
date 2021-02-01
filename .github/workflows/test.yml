@@ -54,23 +54,14 @@ jobs:
       - name: Dir content
         run: dir
 
-  windows:
-    needs: ["linux", "win"]
+  winWin:
+    needs: ["win"]
     runs-on: windows-latest
     timeout-minutes: 2
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Cache Linux
-        uses: actions/cache@v2
-        with:
-          path: |
-            ./test.txt
-          key: v1-test-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-cache-
 
       - name: Cache Windows
         uses: actions/cache@v2
@@ -89,6 +80,33 @@ jobs:
 
       - name: Type File from cache
         run: type ./test-win.txt
+
+  winNix:
+    needs: ["win"]
+    runs-on: windows-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Linux
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test.txt
+          key: v1-test-cache-${{ github.sha }}
+          restore-keys: |
+            v1-test-cache-
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
+      - name: Dir
+        run: dir
+
+      - name: Type File from cache
+        run: type ./test.txt
 
   nix:
     needs: ["linux"]
