@@ -7,6 +7,7 @@ on:
 jobs:
   linux:
     runs-on: ubuntu-latest
+    timeout-minutes: 1
 
     steps:
       - name: Checkout
@@ -30,6 +31,7 @@ jobs:
   windows:
     needs: ["linux"]
     runs-on: windows-latest
+    timeout-minutes: 2
 
     steps:
       - name: Checkout
@@ -46,11 +48,12 @@ jobs:
         run: type test.txt
 
       - name: Echo github sha for env
-        run: echo "${{ github.base_ref }}"
+        run: echo "${{ github.sha }}"
 
   osx:
     needs: ["linux"]
     runs-on: macos-latest
+    timeout-minutes: 1
 
     steps:
       - name: Checkout
@@ -66,4 +69,4 @@ jobs:
         run: cat test.txt
 
       - name: Echo github sha for env
-        run: echo "${{ github.base_ref }}"
+        run: echo "${{ github.sha }}"
