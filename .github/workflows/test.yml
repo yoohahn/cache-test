@@ -81,6 +81,33 @@ jobs:
       - name: Type File from cache
         run: type ./test-win.txt
 
+  nixWin:
+    needs: ["win"]
+    runs-on: windows-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Windows
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test-win.txt
+          key: v1-test-win-cache-${{ github.sha }}
+          restore-keys: |
+            v1-test-win-cache-
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
+      - name: LS
+        run: ls -la
+
+      - name: Type File from cache
+        run: cat ./test-win.txt
+
   winNix:
     needs: ["linux"]
     runs-on: windows-latest
