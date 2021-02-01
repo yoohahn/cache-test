@@ -30,10 +30,9 @@ jobs:
       - name: Cat File to be cached
         run: cat test.txt
 
-  windows:
-    needs: ["linux"]
+  win:
     runs-on: windows-latest
-    timeout-minutes: 2
+    timeout-minutes: 1
 
     steps:
       - name: Checkout
@@ -43,19 +42,50 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
+            ./test-win.txt
+          key: v1-test-win-cache-${{ github.ref }}
+          restore-keys: |
+            v1-test-win-cache-
+
+      - name: Create File
+        run: |
+          "${{ github.sha }}" | Out-File -FilePath test-win.txt
+
+      - name: Dir content
+        run: dir
+
+  windows:
+    needs: ["linux", "win"]
+    runs-on: windows-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Linux
+        uses: actions/cache@v2
+        with:
+          path: |
             ./test.txt
           key: v1-test-cache-${{ github.ref }}
           restore-keys: |
             v1-test-cache-
+
+      - name: Cache Windows
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test-win.txt
+          key: v1-test-win-cache-${{ github.ref }}
+          restore-keys: |
+            v1-test-win-cache-
 
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
 
       - name: Dir
         run: dir
-
-      - name: Type File from cache
-        run: type test.txt
 
   nix:
     needs: ["linux"]
