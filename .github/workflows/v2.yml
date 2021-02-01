@@ -1,0 +1,210 @@
+name: Testing Cache Linux -> Windows && Linux -> MacOS
+
+on:
+  pull_request:
+  push:
+
+jobs:
+## LINUX
+  linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test.txt
+          key: v2-test-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-cache-
+
+      - name: Create File
+        run: |
+          touch test.txt
+          echo "${{ github.sha }}" > test.txt
+
+      - name: Cat File to be cached
+        run: cat test.txt
+## Linux -> Win
+  linux_windows:
+    needs: ["linux"]
+    runs-on: windows-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Linux
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test.txt
+          key: v2-test-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-cache-
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
+      - name: Dir
+        run: dir
+
+      - name: Type File from cache
+        run: type ./test.txt
+## Linux -> Linux
+  linux_linux:
+    needs: ["linux"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ./test.txt
+          key: v2-test-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-cache-
+
+      - name: Cat File from cache
+        run: cat test.txt
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+## Linux -> OSX
+  linux_osx:
+    needs: ["linux"]
+    runs-on: macos-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ./test.txt
+          key: v2-test-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-cache-
+
+      - name: Cat File from cache
+        run: cat test.txt
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+## Windows
+  windows:
+    runs-on: windows-latest
+    timeout-minutes: 1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test-win.txt
+          key: v2-test-win-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-win-cache-
+
+      - name: Create File
+        run: |
+          "${{ github.sha }}" | Out-File -FilePath test-win.txt
+
+      - name: Dir content
+        run: dir
+## Windows -> Windows
+  windows_windows:
+    needs: ["windows"]
+    runs-on: windows-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Windows
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test-win.txt
+          key: v2-test-win-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-win-cache-
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
+      - name: Dir
+        run: dir
+
+      - name: Type File from cache
+        run: type ./test-win.txt
+## Windows -> Linux
+  windows_linux:
+    needs: ["windows"]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Windows
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test-win.txt
+          key: v2-test-win-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-win-cache-
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
+      - name: LS
+        run: ls -la
+
+      - name: Type File from cache
+        run: cat ./test-win.txt
+## Windows -> OSX
+  windows_osx:
+    needs: ["windows"]
+    runs-on: macos-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache Windows
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test-win.txt
+          key: v2-test-win-cache-${{ github.sha }}
+          restore-keys: |
+            v2-test-win-cache-
+
+      - name: Echo github sha for env
+        run: echo "${{ github.sha }}"
+
+      - name: LS
+        run: ls -la
+
+      - name: Type File from cache
+        run: cat ./test-win.txt
