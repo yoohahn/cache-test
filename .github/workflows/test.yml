@@ -82,7 +82,7 @@ jobs:
         run: type ./test-win.txt
 
   winNix:
-    needs: ["win"]
+    needs: ["linux"]
     runs-on: windows-latest
     timeout-minutes: 2
 
