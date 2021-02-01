@@ -16,19 +16,18 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ./test/*
+            ./test.txt
           key: v1-test-${{ github.base_ref }}
           restore-keys: |
             v1-test-
 
-      - name: Create Folder and Files
+      - name: Create File
         run: |
-          mkdir -p test
-          touch test/file.txt
-          echo "${{ github.sha }}" > ./test/file.txt
+          touch test.txt
+          echo "${{ github.sha }}" > test.txt
 
-      - name: Echo File
-        run: cat ./test/file.txt
+      - name: Cat File to be cached
+        run: cat test.txt
 
   windows:
     needs: ["linux"]
@@ -42,13 +41,16 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ./test/*
+            ./test.txt
           key: v1-test-${{ github.base_ref }}
           restore-keys: |
             v1-test-
 
-      - name: Echo File from cache
-        run: cat ./test/file.txt
+      - name: Type File from cache
+        run: type test.txt
+
+      - name: Echo github sha for env
+        run: echo "${{ github.base_ref }}"
 
   osx:
     needs: ["linux"]
@@ -62,10 +64,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ./test/*
+            ./test.txt
           key: v1-test-${{ github.base_ref }}
           restore-keys: |
             v1-test-
 
-      - name: Echo File from cache
-        run: cat ./test/file.txt
+      - name: Cat File from cache
+        run: cat test.txt
+
+      - name: Echo github sha for env
+        run: echo "${{ github.base_ref }}"
