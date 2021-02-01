@@ -18,7 +18,9 @@ jobs:
         with:
           path: |
             ./test.txt
-          key: v1-test-cache
+          key: v1-test-cache-${{ github.ref }}
+          restore-keys: |
+            v1-test-cache-
 
       - name: Create File
         run: |
@@ -42,7 +44,9 @@ jobs:
         with:
           path: |
             ./test.txt
-          key: v1-test-cache
+          key: v1-test-cache-${{ github.ref }}
+          restore-keys: |
+            v1-test-cache-
 
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
@@ -66,7 +70,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./test.txt
-          key: v1-test-cache
+          key: v1-test-cache-${{ github.ref }}
+          restore-keys: |
+            v1-test-cache-
 
       - name: Cat File from cache
         run: cat test.txt
@@ -87,7 +93,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./test.txt
-          key: v1-test-cache
+          key: v1-test-cache-${{ github.ref }}
+          restore-keys: |
+            v1-test-cache-
 
       - name: Cat File from cache
         run: cat test.txt
