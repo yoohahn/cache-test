@@ -19,11 +19,8 @@ jobs:
       - name: Cache
         uses: actions/cache@v1
         with:
-          path: |
-            ./test.txt
+          path: ./test.txt
           key: v1-test-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-cache-
 
       - name: Create File
         run: |
@@ -45,11 +42,8 @@ jobs:
       - name: Cache Linux
         uses: actions/cache@v1
         with:
-          path: |
-            ./test.txt
+          path: ./test.txt
           key: v1-test-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-cache-
 
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
@@ -74,8 +68,6 @@ jobs:
         with:
           path: ./test.txt
           key: v1-test-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-cache-
 
       - name: Cat File from cache
         run: cat test.txt
@@ -97,8 +89,6 @@ jobs:
         with:
           path: ./test.txt
           key: v1-test-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-cache-
 
       - name: Cat File from cache
         run: cat test.txt
@@ -117,11 +107,8 @@ jobs:
       - name: Cache
         uses: actions/cache@v1
         with:
-          path: |
-            ./test-win.txt
+          path: ./test-win.txt
           key: v1-test-win-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-win-cache-
 
       - name: Create File
         run: |
@@ -142,11 +129,8 @@ jobs:
       - name: Cache Windows
         uses: actions/cache@v1
         with:
-          path: |
-            ./test-win.txt
+          path: ./test-win.txt
           key: v1-test-win-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-win-cache-
 
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
@@ -169,11 +153,8 @@ jobs:
       - name: Cache Windows
         uses: actions/cache@v1
         with:
-          path: |
-            ./test-win.txt
+          path: ./test-win.txt
           key: v1-test-win-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-win-cache-
 
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
@@ -196,11 +177,8 @@ jobs:
       - name: Cache Windows
         uses: actions/cache@v1
         with:
-          path: |
-            ./test-win.txt
+          path: ./test-win.txt
           key: v1-test-win-cache-${{ github.sha }}
-          restore-keys: |
-            v1-test-win-cache-
 
       - name: Echo github sha for env
         run: echo "${{ github.sha }}"
