@@ -28,7 +28,7 @@ jobs:
           echo "${{ github.sha }}" > ./test/file.txt
 
       - name: Echo File
-        run: echo ./test/file.txt
+        run: cat ./test/file.txt
 
   windows:
     needs: ["linux"]
@@ -48,7 +48,7 @@ jobs:
             v1-test-
 
       - name: Echo File from cache
-        run: echo ./test/file.txt
+        run: cat ./test/file.txt
 
   osx:
     needs: ["linux"]
@@ -68,4 +68,4 @@ jobs:
             v1-test-
 
       - name: Echo File from cache
-        run: echo ./test/file.txt
+        run: cat ./test/file.txt
