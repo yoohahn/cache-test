@@ -1,0 +1,71 @@
+name: Testing Cache Linux -> Windows && Linux -> MacOS
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test/*
+          key: v1-test-${{ github.base_ref }}
+          restore-keys: |
+            v1-test-
+
+      - name: Create Folder and Files
+        run: |
+          mkdir -p test
+          touch test/file.txt
+          echo "${{ github.sha }}" > ./test/file.txt
+
+      - name: Echo File
+        run: echo ./test/file.txt
+
+  windows:
+    needs: ["linux"]
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test/*
+          key: v1-test-${{ github.base_ref }}
+          restore-keys: |
+            v1-test-
+
+      - name: Echo File from cache
+        run: echo ./test/file.txt
+
+  osx:
+    needs: ["linux"]
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./test/*
+          key: v1-test-${{ github.base_ref }}
+          restore-keys: |
+            v1-test-
+
+      - name: Echo File from cache
+        run: echo ./test/file.txt
